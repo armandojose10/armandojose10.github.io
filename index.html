@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro de Casos: Mateo y Juan Sebastián</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', 'Marker Felt', 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .storybook-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .cover {
+            background: linear-gradient(45deg, #FF9A9E 0%, #FAD0C4 100%);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cover h1 {
+            font-size: 2.5em;
+            color: #2C3E50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .cover h2 {
+            font-size: 1.6em;
+            color: #E74C3C;
+            margin-bottom: 30px;
+        }
+        
+        .cover p {
+            font-size: 1.1em;
+            color: #2C3E50;
+            line-height: 1.6;
+        }
+        
+        .character-image {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #2C3E50;
+            border: 6px solid #2C3E50;
+        }
+        
+        .page {
+            padding: 30px;
+            border-top: 3px dashed #E74C3C;
+            background: #FFF9C4;
+        }
+        
+        .page:first-child {
+            border-top: none;
+        }
+        
+        .page-title {
+            font-size: 1.8em;
+            color: #E74C3C;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .case-title {
+            font-size: 2em;
+            color: #2C3E50;
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(45deg, #A8E6CF, #DFFFD8);
+            padding: 15px;
+            border-radius: 15px;
+            border: 3px solid #27AE60;
+        }
+        
+        .page-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #2C3E50;
+            text-align: justify;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #7F8C8D;
+            margin: 15px 0;
+            padding: 10px 20px;
+            border-left: 4px solid #E74C3C;
+            background: #F8F9FA;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .strengths {
+            background: linear-gradient(45deg, #A8E6CF 0%, #DFFFD8 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #27AE60;
+        }
+        
+        .challenges {
+            background: linear-gradient(45deg, #FFB3BA 0%, #FFDFBA 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #E74C3C;
+        }
+        
+        .questions-section {
+            background: linear-gradient(45deg, #D4FC79 0%, #96E6A1 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #27AE60;
+        }
+        
+        .question {
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            color: #2C3E50;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+        
+        .question::before {
+            content: "❓ ";
+        }
+        
+        .answer-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+            margin-bottom: 10px;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: #E74C3C;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.9em;
+            color: #7F8C8D;
+        }
+        
+        .back-cover {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .back-cover h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            font-size: 1.1em;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #E74C3C, transparent);
+            margin: 30px 0;
+            border-radius: 2px;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #27AE60, #2ECC71);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+        
+        .report-container {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 3px solid #3498db;
+            display: none;
+        }
+        
+        .report-title {
+            text-align: center;
+            color: #2C3E50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .report-section {
+            margin-bottom: 25px;
+        }
+        
+        .report-section h3 {
+            color: #E74C3C;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E74C3C;
+        }
+        
+        .report-answer {
+            background: #F8F9FA;
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 4px solid #3498db;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note {
+            background: #FFF3CD;
+            border: 1px solid #FFEAA7;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .cover h1 {
+                font-size: 1.8em;
+            }
+            .cover h2 {
+                font-size: 1.2em;
+            }
+            .case-title {
+                font-size: 1.5em;
+            }
+            .page-title {
+                font-size: 1.4em;
+            }
+            .page-content {
+                font-size: 1em;
+            }
+            .question {
+                font-size: 1em;
+            }
+            .answer-input {
+                font-size: 0.9em;
+                min-height: 50px;
+            }
+            .generate-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="storybook-container">
+        <!-- Portada -->
+        <div class="cover">
+            <div class="character-image">👦</div>
+            <h1>Libro de Casos</h1>
+            <h2>Mateo y Juan Sebastián</h2>
+            <p>Historias sobre aprender de manera diferente</p>
+        </div>
+        
+        <!-- Caso 1: Mateo -->
+        <div class="page">
+            <div class="case-title">Mateo - 11 años - 6º de primaria</div>
+            
+            <h2 class="page-title">¡Hola! Soy Mateo</h2>
+            <div class="page-content">
+                <p>Soy un niño alegre y conversador. Me encanta participar en clase y contar historias. Cuando mis profesores explican algo en voz alta, lo entiendo muy rápido y puedo responder preguntas sin problema.</p>
+                <div class="quote">"¡Profesora, yo sé la respuesta!"</div>
+                <p>Mis amigos dicen que soy divertido y que siempre tengo algo interesante que decir. En los trabajos en grupo, soy el que más ideas aporta y me gusta ayudar a los demás a entender las cosas.</p>
+            </div>
+            
+            <div class="strengths">
+                <div class="page-content">
+                    <p><span class="highlight">✅ Soy excelente escuchando:</span> Cuando alguien me habla o explica algo, lo entiendo al instante.</p>
+                    <p><span class="highlight">✅ Soy un gran conversador:</span> Me encanta compartir mis ideas y escuchar a los demás.</p>
+                    <p><span class="highlight">✅ Tengo mucha imaginación:</span> Siempre tengo historias y ejemplos para explicar las cosas.</p>
+                    <p><span class="highlight">✅ Soy colaborativo:</span> En equipo, soy el que anima a todos y aporta soluciones creativas.</p>
+                </div>
+            </div>
+            
+            <div class="challenges">
+                <div class="page-content">
+                    <p><strong>Lectura:</strong> Cuando debo leer instrucciones por mi cuenta, me demoro mucho y me confundo con las líneas o palabras. Al leer en voz alta, hago pausas largas y a veces vuelvo a una línea ya leída.</p>
+                    <p><strong>Escritura:</strong> Mis ideas no siempre quedan como quiero: borro seguido, cambio letras de orden y omito palabras al copiar del tablero. Prefiero hablar a escribir porque siento que "pierdo" lo que intento poner en el cuaderno.</p>
+                    <p><strong>Matemáticas:</strong> Copiar números me cuesta porque los desordeno sin darme cuenta. Al hacer operaciones sencillas, pierdo la cuenta del procedimiento y necesito más tiempo que mis compañeros. Si tengo que manejar dinero o leer la hora en un reloj, me confundo y pido ayuda.</p>
+                    <p><strong>Emociones:</strong> Estas tareas me generan frustración y, antes de pruebas relacionadas con números o lectura, me pongo nervioso y callado.</p>
+                </div>
+            </div>
+            
+            <div class="questions-section">
+                <h3 style="text-align: center; color: #2C3E50; margin-bottom: 15px;">Preguntas para reflexionar sobre Mateo</h3>
+                <div class="question">¿Qué señales muestran que a Mateo le cuesta aprender o usar los números en las tareas de matemáticas?</div>
+                <textarea id="mateo-q1" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Qué errores comete Mateo al copiar o hacer operaciones que podrían indicar fallas en la organización o en la memoria?</div>
+                <textarea id="mateo-q2" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Cómo se notan sus dificultades con los números en actividades diarias como leer la hora o usar dinero?</div>
+                <textarea id="mateo-q3" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Qué tipo de discalculia podría tener según los errores que comete (por ejemplo, de memoria, de procedimiento o de espacio)?</div>
+                <textarea id="mateo-q4" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Qué partes del cerebro crees que podrían estar relacionadas con sus problemas para ordenar o entender los números?</div>
+                <textarea id="mateo-q5" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Caso 2: Juan Sebastián -->
+        <div class="page">
+            <div class="case-title">Juan Sebastián - 10 años - 5º de primaria</div>
+            
+            <h2 class="page-title">¡Hola! Soy Juan Sebastián</h2>
+            <div class="page-content">
+                <p>Soy un niño cariñoso y muy hablador. Me encantan los cuentos de aventuras, dibujar personajes y participar en actividades de clase. Aprendo fácilmente cuando me explican las cosas oralmente.</p>
+                <div class="quote">"Los números se esconden cuando intento recordarlos..."</div>
+                <p>En casa me gusta ayudar a mis papás y jugar con mis hermanos. Soy creativo y tengo mucha imaginación para inventar historias y dibujar personajes.</p>
+            </div>
+            
+            <div class="strengths">
+                <div class="page-content">
+                    <p><span class="highlight">✅ Aprendo bien escuchando:</span> Cuando me explican oralmente, entiendo rápido.</p>
+                    <p><span class="highlight">✅ Soy creativo:</span> Me encantan los cuentos de aventuras y dibujar personajes.</p>
+                    <p><span class="highlight">✅ Soy participativo:</span> Me gusta involucrarme en actividades de clase.</p>
+                    <p><span class="highlight">✅ Buen desempeño en otras áreas:</span> En lectura, ciencias y sociales estoy dentro de lo esperado.</p>
+                </div>
+            </div>
+            
+            <div class="challenges">
+                <div class="page-content">
+                    <p><strong>Matemáticas:</strong> Me quedo mirando el cuaderno sin saber por dónde empezar. Al copiar ejercicios del tablero, las cifras llegan cambiadas de orden o desaparecen. Necesito mucho tiempo para ordenar números o decidir cuál es mayor, y a veces uso los dedos para asegurarme.</p>
+                    <p><strong>Actividades diarias:</strong> Me confundo con el valor de las monedas y digo que los relojes "son muy raros" porque no logro comprender cómo leerlos.</p>
+                    <p><strong>Procedimientos:</strong> Cuando los ejercicios requieren varios pasos seguidos, me pierdo a la mitad y vuelvo al inicio una y otra vez.</p>
+                    <p><strong>Emociones:</strong> Me cohíbo en actividades con números. Cuando no puedo resolver un cálculo que los demás logran rápido, me quedo callado y bajo la mirada. Antes de clases de matemáticas me pongo inquieto y pregunto si podríamos hacer otra cosa.</p>
+                </div>
+            </div>
+            
+            <div class="questions-section">
+                <h3 style="text-align: center; color: #2C3E50; margin-bottom: 15px;">Preguntas para reflexionar sobre Juan Sebastián</h3>
+                <div class="question">¿Qué dificultades muestra Juan Sebastián cuando trabaja con números que podrían indicar un problema de discalculia?</div>
+                <textarea id="juan-q1" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Qué tipo de errores se observan cuando copia o compara números (por ejemplo, cambiar el orden o saltarse pasos)?</div>
+                <textarea id="juan-q2" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">Aunque lee bien, ¿crees que puede tener pequeñas dificultades para entender las instrucciones escritas o los problemas matemáticos?</div>
+                <textarea id="juan-q3" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Cómo influye su forma de aprender por medio del oído o el lenguaje en su comprensión de las matemáticas?</div>
+                <textarea id="juan-q4" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+                
+                <div class="question">¿Qué actividades o estrategias podrían ayudarlo a sentirse más seguro y mejorar en matemáticas sin que se frustre?</div>
+                <textarea id="juan-q5" class="answer-input" placeholder="Escribe tu respuesta aquí..."></textarea>
+            </div>
+        </div>
+        
+        <!-- Botón para generar reporte -->
+        <div style="text-align: center; padding: 20px; background: #ECF0F1;">
+            <button class="generate-btn" onclick="generateReport()">📊 Generar Reporte de Respuestas</button>
+            <div class="note">
+                <strong>Nota:</strong> En un entorno real, este sistema podría generar un archivo Excel (.xlsx) con todas las respuestas. 
+                Para eso se necesitaría la librería <code>SheetJS (xlsx)</code> y funcionalidad de descarga de archivos, 
+                que no están disponibles en este entorno de demostración.
+            </div>
+        </div>
+        
+        <!-- Contenedor para el reporte -->
+        <div id="reportContainer" class="report-container">
+            <h2 class="report-title">Reporte de Análisis - Casos de Mateo y Juan Sebastián</h2>
+            <div id="reportContent"></div>
+        </div>
+        
+        <!-- Contraportada -->
+        <div class="back-cover">
+            <h3>Para padres, profesores y compañeros</h3>
+            <div class="message">
+                <p>Este libro presenta dos casos reales que ilustran cómo las dificultades de aprendizaje específicas pueden manifestarse de manera diferente en cada niño. Mateo y Juan Sebastián tienen fortalezas significativas y desafíos particulares que requieren comprensión, apoyo y estrategias adecuadas.</p>
+                <p style="margin-top: 20px; font-weight: bold;">¡Cada niño aprende a su propio ritmo y de su propia manera!</p>
+                <p style="margin-top: 15px;">Las preguntas incluidas buscan fomentar la reflexión y el análisis para desarrollar intervenciones personalizadas que potencien sus talentos y aborden sus necesidades específicas.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generateReport() {
+            // Obtener respuestas de Mateo
+            const mateoAnswers = [
+                document.getElementById('mateo-q1').value || "No respondido",
+                document.getElementById('mateo-q2').value || "No respondido",
+                document.getElementById('mateo-q3').value || "No respondido",
+                document.getElementById('mateo-q4').value || "No respondido",
+                document.getElementById('mateo-q5').value || "No respondido"
+            ];
+            
+            // Obtener respuestas de Juan Sebastián
+            const juanAnswers = [
+                document.getElementById('juan-q1').value || "No respondido",
+                document.getElementById('juan-q2').value || "No respondido",
+                document.getElementById('juan-q3').value || "No respondido",
+                document.getElementById('juan-q4').value || "No respondido",
+                document.getElementById('juan-q5').value || "No respondido"
+            ];
+            
+            // Verificar si hay respuestas
+            const allAnswers = [...mateoAnswers, ...juanAnswers];
+            const hasAnswers = allAnswers.some(answer => answer !== "No respondido");
+            
+            if (!hasAnswers) {
+                alert("Por favor, responde al menos una pregunta antes de generar el reporte.");
+                return;
+            }
+            
+            // Generar contenido del reporte
+            let reportHTML = '';
+            
+            // Sección de Mateo
+            reportHTML += '<div class="report-section">';
+            reportHTML += '<h3>Análisis del caso de Mateo (11 años - 6º de primaria)</h3>';
+            const mateoQuestions = [
+                "¿Qué señales muestran que a Mateo le cuesta aprender o usar los números en las tareas de matemáticas?",
+                "¿Qué errores comete Mateo al copiar o hacer operaciones que podrían indicar fallas en la organización o en la memoria?",
+                "¿Cómo se notan sus dificultades con los números en actividades diarias como leer la hora o usar dinero?",
+                "¿Qué tipo de discalculia podría tener según los errores que comete (por ejemplo, de memoria, de procedimiento o de espacio)?",
+                "¿Qué partes del cerebro crees que podrían estar relacionadas con sus problemas para ordenar o entender los números?"
+            ];
+            
+            mateoQuestions.forEach((question, index) => {
+                reportHTML += `<div class="report-answer"><strong>Pregunta ${index + 1}:</strong> ${question}<br><br><strong>Respuesta:</strong> ${mateoAnswers[index]}</div>`;
+            });
+            reportHTML += '</div>';
+            
+            // Sección de Juan Sebastián
+            reportHTML += '<div class="report-section">';
+            reportHTML += '<h3>Análisis del caso de Juan Sebastián (10 años - 5º de primaria)</h3>';
+            const juanQuestions = [
+                "¿Qué dificultades muestra Juan Sebastián cuando trabaja con números que podrían indicar un problema de discalculia?",
+                "¿Qué tipo de errores se observan cuando copia o compara números (por ejemplo, cambiar el orden o saltarse pasos)?",
+                "Aunque lee bien, ¿crees que puede tener pequeñas dificultades para entender las instrucciones escritas o los problemas matemáticos?",
+                "¿Cómo influye su forma de aprender por medio del oído o el lenguaje en su comprensión de las matemáticas?",
+                "¿Qué actividades o estrategias podrían ayudarlo a sentirse más seguro y mejorar en matemáticas sin que se frustre?"
+            ];
+            
+            juanQuestions.forEach((question, index) => {
+                reportHTML += `<div class="report-answer"><strong>Pregunta ${index + 1}:</strong> ${question}<br><br><strong>Respuesta:</strong> ${juanAnswers[index]}</div>`;
+            });
+            reportHTML += '</div>';
+            
+            // Mostrar el reporte
+            document.getElementById('reportContent').innerHTML = reportHTML;
+            document.getElementById('reportContainer').style.display = 'block';
+            
+            // Scroll al reporte
+            document.getElementById('reportContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Función que mostraría cómo se implementaría la generación de Excel en un entorno real
+        function generateExcelInRealEnvironment() {
+            /*
+            // Este código funcionaría en un entorno real con la librería SheetJS instalada
+            // npm install xlsx
+            
+            const XLSX = require('xlsx');
+            
+            // Crear datos para Excel
+            const worksheetData = [];
+            
+            // Encabezados
+            worksheetData.push(['Caso', 'Pregunta', 'Respuesta']);
+            
+            // Datos de Mateo
+            const mateoQuestions = [/* preguntas de Mateo *\/];
+            const mateoAnswers = [/* respuestas de Mateo *\/];
+            
+            mateoQuestions.forEach((question, index) => {
+                worksheetData.push(['Mateo', question, mateoAnswers[index] || '']);
+            });
+            
+            // Datos de Juan Sebastián
+            const juanQuestions = [/* preguntas de Juan *\/];
+            const juanAnswers = [/* respuestas de Juan *\/];
+            
+            juanQuestions.forEach((question, index) => {
+                worksheetData.push(['Juan Sebastián', question, juanAnswers[index] || '']);
+            });
+            
+            // Crear workbook y worksheet
+            const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Análisis Casos');
+            
+            // Generar y descargar archivo
+            XLSX.writeFile(workbook, 'analisis_casos_mateo_juan.xlsx');
+            */
+        }
+    </script>
+</body>
+</html>
+
+
